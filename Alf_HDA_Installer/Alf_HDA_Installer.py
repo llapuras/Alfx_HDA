@@ -32,7 +32,7 @@ js_text = '''
 
 def CreatePackage():
 
-    docPath = os.path.expanduser('~\Documents').replace("\\", "/") + "/houdini19.0/packages/" #TODO: version free
+    docPath = os.path.expanduser('~\Documents').replace("\\", "/") + "/houdini19.5/packages/" #TODO: version free
     packagePath = docPath + Plugin_Name
     # 判断路径是否存在，不存在则创建一个
     if not os.path.exists(docPath):
