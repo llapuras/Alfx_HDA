@@ -9,10 +9,10 @@ FBXHeaderExtension:  {
 		Year: 2024
 		Month: 3
 		Day: 27
-		Hour: 7
-		Minute: 45
-		Second: 29
-		Millisecond: 692
+		Hour: 8
+		Minute: 8
+		Second: 17
+		Millisecond: 60
 	}
 	Creator: "FBX SDK/FBX Plugins version 2020.0.1"
 	OtherFlags:  {
@@ -37,13 +37,13 @@ FBXHeaderExtension:  {
 			P: "Original|ApplicationVendor", "KString", "", "", "SideFX Software"
 			P: "Original|ApplicationName", "KString", "", "", "Houdini"
 			P: "Original|ApplicationVersion", "KString", "", "", "19.5.773"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "26/03/2024 23:45:29.686"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "27/03/2024 00:08:17.059"
 			P: "Original|FileName", "KString", "", "", "F:\Alf_HDA\hips\uvcombiner\out_1.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "SideFX Software"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Houdini"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "19.5.773"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "26/03/2024 23:45:29.686"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "27/03/2024 00:08:17.059"
 			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Alfxian"
 			P: "Original|ApplicationNativeFile", "KString", "", "", "F:\Alf_HDA\hips\uvcombiner\UVcombiner.hip"
 		}
@@ -80,7 +80,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1974673408, "", "Scene" {
+	Document: 4445713408, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", ""
@@ -198,13 +198,13 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	NodeAttribute: 94696448, "NodeAttribute::foreach_end6", "Null" {
+	NodeAttribute: 5022070912, "NodeAttribute::foreach_end6", "Null" {
 		Properties70:  {
 			P: "Look", "enum", "", "",0
 		}
 		TypeFlags: "Null"
 	}
-	Model: 5084927488, "Model::foreach_end6", "Null" {
+	Model: 5021961088, "Model::foreach_end6", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
@@ -222,10 +222,10 @@ Objects:  {
 Connections:  {
 	
 	;Model::foreach_end6, Model::RootNode
-	C: "OO",5084927488,0
+	C: "OO",5021961088,0
 	
 	;NodeAttribute::foreach_end6, Model::foreach_end6
-	C: "OO",94696448,5084927488
+	C: "OO",5022070912,5021961088
 }
 ;Takes section
 ;----------------------------------------------------
