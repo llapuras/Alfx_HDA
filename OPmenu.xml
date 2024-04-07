@@ -1,0 +1,188 @@
+<menuDocument>
+	<menu>
+        <scriptItem id="valar_show_in_explorer">
+        <label>Valar Show HDA In Explorer</label>
+        <insertAtIndex>0</insertAtIndex>
+        <context>
+            <expression>
+                <![CDATA[
+import hou
+import assettools
+
+node = kwargs["node"]
+if assettools.isVHDA(node) or assettools.isHDA(node):
+    return 1
+else:
+    return 0
+                ]]>
+            </expression>
+        </context>
+        <scriptCode>
+            <![CDATA[
+import valar_hdatools
+from importlib import reload
+reload(valar_hdatools)
+valar_hdatools.showhdainexplorer(kwargs["node"])
+            ]]>
+        </scriptCode>
+        </scriptItem>
+	</menu>
+
+    <menu>
+        <scriptItem id="valar_publish_asset">
+        <label>Valar Publish HDA </label>
+        <insertAtIndex>0</insertAtIndex>
+        <context>
+            <expression>
+                <![CDATA[
+import hou
+import assettools
+
+node = kwargs["node"]
+hda_def = node.type().definition()
+if assettools.isVHDA(node) or assettools.isHDA(node):
+    if assettools.isInHoudiniFileSystem(hda_def):
+        return 0
+    else:
+        return 1
+else:
+    return 0
+                ]]>
+            </expression>
+        </context>
+        <scriptCode>
+            <![CDATA[
+import valar_hdatools
+from importlib import reload
+reload(valar_hdatools)
+valar_hdatools.publishHDA(kwargs["node"])
+            ]]>
+        </scriptCode>
+        </scriptItem>
+	</menu>
+
+    <menu>
+        <scriptItem id="valar_check_asset">
+        <label>Valar Check HDA </label>
+        <insertAtIndex>0</insertAtIndex>
+        <context>
+            <expression>
+                <![CDATA[
+import hou
+import assettools
+
+node = kwargs["node"]
+hda_def = node.type().definition()
+if assettools.isVHDA(node) or assettools.isHDA(node):
+    if assettools.isInHoudiniFileSystem(hda_def):
+        return 0
+    else:
+        return 1
+else:
+    return 0
+                ]]>
+            </expression>
+        </context>
+        <scriptCode>
+            <![CDATA[
+import valar_hdatools
+from importlib import reload
+reload(valar_hdatools)
+valar_hdatools.checkHDA(kwargs["node"])
+            ]]>
+        </scriptCode>
+        </scriptItem>
+	</menu>
+
+    <menu>
+        <subMenu id = "valar_pdg_options">
+            <label>Valar PDG</label>
+            <insertAtIndex>0</insertAtIndex>
+            <context>
+            <expression>
+        <![CDATA[
+import hou
+node = kwargs["node"]
+if node.type().category().name() == "Top" or node.type().name() == "topnet":
+    return 1
+else:
+    return 0
+        ]]>
+            </expression>
+            </context>
+            <scriptItem id="valar_pdg_debug">
+            <label>Valar Create PDG Debug File</label>
+            <context>
+                <expression>
+                <![CDATA[
+import hou
+import assettools
+
+node = kwargs["node"]
+if assettools.isVHDA(node) or assettools.isHDA(node):
+    return 1
+else:
+    return 0
+                ]]>
+                </expression>
+                </context>
+                    <scriptCode>
+                    <![CDATA[
+from importlib import reload
+import valar_hdatools
+reload(valar_hdatools)
+valar_hdatools.createPDGDebugFile(kwargs["node"])
+                    ]]>
+                    </scriptCode>
+            </scriptItem>
+            <scriptItem id="valar_show_outputfile">
+            <label>Valar Show Output In Explorer</label>
+            <context>
+                <expression>
+                    <![CDATA[
+import hou
+
+node = kwargs["node"]
+if node.type().name() == "hdaprocessor" or node.type().name() == "topnet":
+    return 1
+else:
+    return 0
+                    ]]>
+                </expression>
+                </context>
+                    <scriptCode>
+                    <![CDATA[
+from importlib import reload
+import valar_hdatools
+reload(valar_hdatools)
+valar_hdatools.showOutputInExplorer(kwargs["node"])
+                    ]]>
+                    </scriptCode>
+            </scriptItem>
+            <scriptItem id="valar_quick_preview">
+            <label>Valar Output Quick Preview</label>
+            <context>
+                <expression>
+                    <![CDATA[
+import hou
+
+node = kwargs["node"]
+if node.type().name() == "hdaprocessor" or node.type().name() == "topnet":
+    return 1
+else:
+    return 0
+                    ]]>
+                </expression>
+                </context>
+                    <scriptCode>
+                    <![CDATA[
+from importlib import reload
+import valar_hdatools
+reload(valar_hdatools)
+valar_hdatools.outquickpreview(kwargs["node"])
+                    ]]>
+                    </scriptCode>
+            </scriptItem>
+        </subMenu>
+    </menu>
+</menuDocument>

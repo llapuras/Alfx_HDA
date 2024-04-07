@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+-->
+<mainMenu>
+  <menuBar>
+    <subMenu id="valar_pcgmenu">
+      <label>Valar</label>
+      <modifyItem>
+        <insertBefore>help_menu</insertBefore>
+      </modifyItem>
+
+      <scriptItem id = 'valar_hdamanager'>
+        <label>Valar HDA Manager</label>
+        <scriptCode>
+          <![CDATA[
+from imp import reload
+import hou
+import valar_hdainstall.valar_hda_manager as valar_hm
+reload(valar_hm)
+valar_hm.initWindow()
+          ]]>
+        </scriptCode>
+      </scriptItem>
+
+      <separatorItem id="valar_menu_sep_0"/>
+
+      <scriptItem id = 'refreshinstall'>
+        <label>Refresh Install</label>
+        <scriptCode>
+          <![CDATA[
+from imp import reload
+import hou
+import valar_hdainstall.valar_hda_manager as valar_hm
+reload(valar_hm)
+valar_hm.refreshinstall()
+          ]]>
+        </scriptCode>
+      </scriptItem>
+
+      <scriptItem id = 'open_jinkens'>
+        <label>Open JinKens</label>
+        <scriptCode>
+          <![CDATA[
+from imp import reload
+import hou
+import valar_hdainstall.valar_hda_manager as valar_hm
+reload(valar_hm)
+valar_hm.openjinkens()
+          ]]>
+        </scriptCode>
+      </scriptItem>
+      
+      <scriptItem id = 'valar_wiki'>
+        <label>Show Wiki</label>
+        <scriptCode>
+          <![CDATA[
+from imp import reload
+import hou
+import valar_hdainstall.valar_hda_manager as valar_hm
+reload(valar_hm)
+valar_hm.openwiki()
+          ]]>
+        </scriptCode>
+      </scriptItem>
+
+    </subMenu>
+  </menuBar>
+</mainMenu>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="Alfx" label="Alfx">
+    <memberTool name="Default Light"/>
+    <memberTool name="copynode"/>
+    <memberTool name="pastenode"/>
+    <memberTool name="tool_3"/>
+  </toolshelf>
+
+  <tool name="Default Light" label="Default Light" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[
+def create_DefaultLight():
+  node = hou.node("/obj").createNode("Alfx_Default_Light", "Alfx_Default_Light")
+  node.setDisplayFlag(False)
+  
+create_DefaultLight()
+
+# Create Camera - 1080
+def create_camera():
+  node = hou.node("/obj").createNode("cam", "cam_1080")
+  node.setParms({"resx": 1920, "resy": 1080})
+  node.setDisplayFlag(False)
+
+# Create Mantra - PBR driver
+def mantra_driver():
+  node = hou.node("/out")
+  out = node.createNode("ifd")
+  out.setParms({"vm_renderengine": "pbrraytrace", "override_camerares": True, "camera": "/obj/cam_1080"})
+
+]]></script>
+  </tool>
+
+  <tool name="tool_3" label="New Tool" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[from imp import reload
+import xxx
+reload(xxx)
+
+xxx.k()]]></script>
+  </tool>
+
+  <tool name="copynode" label="Copy Node" icon="SOP_topobuild">
+    <script scriptType="python"><![CDATA[from imp import reload
+import alfx_utils
+reload(alfx_utils)
+
+try:
+    alfx_utils.copynode()
+except:
+    pass]]></script>
+  </tool>
+
+  <tool name="pastenode" label="Paste Node" icon="SOP_topobuild">
+    <script scriptType="python"><![CDATA[from imp import reload
+import alfx_utils
+reload(alfx_utils)
+
+try:
+    alfx_utils.pastenode()
+except:
+    pass]]></script>
+  </tool>
+</shelfDocument>
