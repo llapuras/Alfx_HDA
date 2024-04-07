@@ -3,33 +3,42 @@
 """
 @author: Alfxian
 @software: PyCharm
-@file: Alf_HDA_Installer.py
+@file: Alfx_HDA_Installer.py
 @time: 2022/8/16 01:10
 """
 import os
 import sys
 
 
-Plugin_Name = "Alf_HDA.json"
+Plugin_Name = "Alfx_HDA.json" # 定义json文件名
 
+# json文件内容
 js_text = '''
 {
-    "path": "$Alf_HDA", 
+    "path": "$Alfx_HDA", 
     "load_package_once": true, 
     
     "env": [
         {
-            "Alf_HDA": "projectPath",
+            "Alfx_HDA": "projectPath",
         },
         {
             "HOUDINI_OTLSCAN_PATH": 
-            "folderPath$HOUDINI_OTLSCAN_PATH",
+            "otlPath$HOUDINI_OTLSCAN_PATH",
+        },
+        {
+            "HOUDINI_TOOLBAR_PATH": 
+            "toolbarPath",
+        },
+        {
+            "HOUDINI_MENU_PATH": 
+            "menuPath",
         },
     ],
 }
 '''
 
-
+# 将自定义HDA库的otl文件夹下所有文件夹路径添加到HOUDINI_OTLSCAN_PATH中
 def CreatePackage():
 
     docPath = os.path.expanduser('~\Documents').replace("\\", "/") + "/houdini19.5/packages/" #TODO: version free
@@ -40,18 +49,28 @@ def CreatePackage():
 
     # 指定package路径
     plugin_path = os.getcwd().replace("\\", "/")
+    
+    # hda path
     hdaPath = plugin_path + "/otls"
-    folderPath = "$Alf_HDA/otls;"
+    folderPath = "$Alfx_HDA/otls;"
     for eachfolder in os.listdir(hdaPath):
         if os.path.isdir(hdaPath + "/" + eachfolder):
-            folderPath += "$Alf_HDA/otls/"+eachfolder +";"
+            folderPath += "$Alfx_HDA/otls/"+eachfolder +";"
 
     temp = js_text.replace("projectPath", plugin_path)
+    newtxt = temp.replace("otlPath", folderPath)
 
-    temp2 = temp.replace("folderPath", folderPath)
+    # toolbar path
+    toolbar = "$Alfx_HDA" + "/toolbar"
+    newtxt = newtxt.replace("toolbarPath", toolbar)
+
+    # menu path
+    menu = "$Alfx_HDA" 
+    newtxt = newtxt.replace("menuPath", menu)
+
 
     f = open(packagePath, "w")
-    f.write(temp2)
+    f.write(newtxt)
     f.close()
 
 
