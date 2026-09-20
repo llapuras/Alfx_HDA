@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <toolshelf name="alfxian_object_merge_tools" label="Alfxian Tools">
+    <memberTool name="alfxian_object_merge_paste"/>
+    <memberTool name="alfxian_null_from_output"/>
+  </toolshelf>
+
+  <tool name="alfxian_object_merge_paste" label="Object Merge Paste" icon="SOP_object_merge">
+    <toolMenuContext name="network">
+      <contextNetType>SOP</contextNetType>
+    </toolMenuContext>
+    <toolSubmenu>Alfxian Tools</toolSubmenu>
+    <script scriptType="python"><![CDATA[import hou
+
+def _network_editor():
+    pane = kwargs.get("pane")
+    if pane and pane.type() == hou.paneTabType.NetworkEditor:
+        return pane
+    return hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
+
+pane = _network_editor()
+if pane is None:
+    hou.ui.displayMessage("No Network Editor found.")
+    raise hou.Error("No Network Editor found.")
+
+parent = pane.pwd()
+if parent.childTypeCategory() != hou.sopNodeTypeCategory():
+    hou.ui.displayMessage("Object Merge Paste works inside a SOP/Geometry network.")
+    raise hou.Error("Not in SOP context.")
+
+sources = [node for node in hou.selectedNodes() if node is not None]
+if not sources:
+    hou.ui.displayMessage("Select one or more source nodes first.")
+    raise hou.Error("No source nodes selected.")
+
+same_parent_sources = [node for node in sources if node.parent() == parent]
+if same_parent_sources:
+    xs = [node.position().x() for node in same_parent_sources]
+    ys = [node.position().y() for node in same_parent_sources]
+    pos = hou.Vector2(max(xs) + 2.5, sum(ys) / float(len(ys)))
+else:
+    try:
+        pos = pane.cursorPosition()
+    except Exception:
+        pos = hou.Vector2(0, 0)
+
+merge = parent.createNode("object_merge", "object_merge_from_selection")
+merge.setPosition(pos)
+
+numobj = merge.parm("numobj")
+if numobj is not None:
+    numobj.set(len(sources))
+
+for index, source in enumerate(sources, start=1):
+    parm = merge.parm("objpath{}".format(index))
+    if parm is not None:
+        parm.set(merge.relativePathTo(source))
+
+xform = merge.parm("xformtype")
+if xform is not None:
+    xform.set(1)
+
+merge.setSelected(True, clear_all_selected=True)
+]]></script>
+  </tool>
+
+  <tool name="alfxian_null_from_output" label="Null From Output" icon="SOP_null">
+    <toolMenuContext name="network">
+      <contextNetType>SOP</contextNetType>
+    </toolMenuContext>
+    <toolSubmenu>Alfxian Tools</toolSubmenu>
+    <script scriptType="python"><![CDATA[import hou
+
+def _network_editor():
+    pane = kwargs.get("pane")
+    if pane and pane.type() == hou.paneTabType.NetworkEditor:
+        return pane
+    return hou.ui.paneTabOfType(hou.paneTabType.NetworkEditor)
+
+def _output_under_cursor(pane):
+    cursor = pane.cursorPosition(False)
+    screen = pane.posToScreen(cursor)
+    radius = 12
+    hits = pane.networkItemsInBox(
+        hou.Vector2(screen.x() - radius, screen.y() - radius),
+        hou.Vector2(screen.x() + radius, screen.y() + radius),
+    )
+
+    for item, part, index in hits:
+        if part == "output" and isinstance(item, hou.Node):
+            return item, index
+
+    return None, None
+
+pane = _network_editor()
+if pane is None:
+    hou.ui.displayMessage("No Network Editor found.")
+    raise hou.Error("No Network Editor found.")
+
+parent = pane.pwd()
+if parent.childTypeCategory() != hou.sopNodeTypeCategory():
+    hou.ui.displayMessage("Null From Output works inside a SOP/Geometry network.")
+    raise hou.Error("Not in SOP context.")
+
+source, output_index = _output_under_cursor(pane)
+if source is None:
+    selected = [node for node in hou.selectedNodes() if node.parent() == parent]
+    if selected:
+        source = selected[0]
+        output_index = 0
+
+if source is None:
+    hou.ui.displayMessage("Shift-click a node output, or select a SOP node first.")
+    raise hou.Error("No source output found.")
+
+null_node = parent.createNode(
+    "null",
+    "OUT_{}".format(source.name()),
+    run_init_scripts=True,
+    force_valid_node_name=True,
+)
+null_node.setInput(0, source, output_index)
+
+try:
+    output_pos = pane.itemOutputPos(source, output_index)
+    null_node.setPosition(hou.Vector2(output_pos.x(), output_pos.y() - 1.5))
+except Exception:
+    null_node.setPosition(source.position() + hou.Vector2(0, -1.5))
+
+null_node.setDisplayFlag(True)
+null_node.setRenderFlag(True)
+null_node.setSelected(True, clear_all_selected=True)
+]]></script>
+  </tool>
+</shelfDocument>

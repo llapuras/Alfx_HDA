@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pythonPanelDocument>
+  <interface name="hda_jd_ai_assistant" label="AI Assistant" icon="MISC_python" showNetworkNavigationBar="false" showInPaneTabMenu="true" help_url="">
+    <script><![CDATA[
+import importlib
+
+from houdini_ai_panel import panel
+
+importlib.reload(panel)
+
+
+def onCreateInterface():
+    return panel.create_interface_root()
+]]></script>
+  </interface>
+</pythonPanelDocument>
+
